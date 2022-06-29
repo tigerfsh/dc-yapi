@@ -8,19 +8,12 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        adminAccount=admin@qq.com
-        db_servername=mongo
-        db_port=27017
-        db_user=root
-        db_pass=example
-        db_authSource=admin 
-    # environment:
-    #   - adminAccount=admin@qq.com
-    #   - db_servername=mongo
-    #   - db_port=27017
-    #   - db_user=root
-    #   - db_pass=example
-    #   - db_authSource=admin 
+      - adminAccount=admin@qq.com
+      - db_servername=mongo
+      - db_port=27017
+      - db_user=root
+      - db_pass=example
+      - db_authSource=admin 
     depends_on:
       - mongo
   mongo:
