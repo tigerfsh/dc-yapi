@@ -20,5 +20,15 @@ RUN cd /yapi/vendors && npm install --production --registry https://registry.npm
 
 RUN npm install pm2 -g 
 
-CMD cd /yapi/vendors && python -c "import os; import json; f = open('config_example.json'); content = f.read(); data = json.loads(content); adminAccount = os.environ.get('adminAccount', 'admin@admin.com'); db_servername = os.environ.get('db_servername', '127.0.0.1'); db_port = os.environ.get('db_port', 27017); db_port = int(db_port); db_user = os.environ.get('db_user'); db_pass = os.environ.get('db_pass'); db_authSource = os.environ.get('db_authSource', 'admin'); data['adminAccount'] = adminAccount; data['db']['servername'] = db_servername; data['db']['port'] = db_port; data['db']['user'] = db_user; data['db']['pass'] = db_pass; data['db']['authSource'] = db_authSource; f.close(); f = open('../config.json', 'w'); f.write(json.dumps(data)); f.close();" && npm run install-server && pm2 start "server/app.js" --name yapi 
+ARG adminAccount
+ARG db_servername
+ARG db_port
+ARG db_user
+ARG db_pass
+ARG db_authSource
+
+RUN cd /yapi/vendors && python -c "import os; import json; f = open('config_example.json'); content = f.read(); data = json.loads(content); adminAccount = ${adminAccount}; db_servername = ${db_servername}; db_port = ${db_port}; db_port = int(db_port); db_user = ${db_user}; db_pass = ${db_pass}; db_authSource = ${db_authSource}; data['adminAccount'] = adminAccount; data['db']['servername'] = db_servername; data['db']['port'] = db_port; data['db']['user'] = db_user; data['db']['pass'] = db_pass; data['db']['authSource'] = db_authSource; f.close(); f = open('../config.json', 'w'); f.write(json.dumps(data)); f.close();" 
+RUN npm run install-server 
+
+CMD pm2 start "server/app.js" --name yapi 
 
