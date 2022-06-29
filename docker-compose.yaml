@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  yapi:
+    image: yapi:1.0
+    container_name: yapi
+    build: .
+    environment:
+      - adminAccount=admin@qq.com
+      - db_servername=127.0.0.1
+      - db_port=27017
+      - db_user=root
+      - db_pass=example
+      - db_authSource=admin 
